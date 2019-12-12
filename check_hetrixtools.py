@@ -6,11 +6,9 @@ https://hetrixtools.com/    search in hetrixtools database
 import requests, json, sys
 from IPy import IP
 
-
 result_dict = {}
 URL_HERTIX = 'https://api.hetrixtools.com/v2/'
-API_KEY = 'a5f9fd2b99c2c6f936ffcc6722f09877'
-
+API_KEY = sys.argv[1]
 
 def check(str_name, host):
     if host == 'ip':
@@ -44,6 +42,6 @@ def check_ip_or_dns(ip_or_dnsname):
     return check(ip_or_dnsname, 'ip')
 
 if __name__ == '__main__':
-    list_arg = sys.argv[1:]
+    list_arg = sys.argv[2:]
     for host in list_arg:
         print(check_ip_or_dns(host))
