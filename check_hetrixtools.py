@@ -29,7 +29,7 @@ def check(str_name, host):
                 'blacklisted_count' : response_json['blacklisted_count'],
                 'blacklist_check_credits_left' : response_json['blacklist_check_credits_left']
                 }
-            result = '{} is listed on {} out of {} checked blacklists'.format(str_name, result_dict['blacklisted_count'], result_dict['blacklist_check_credits_left'])
+            result = '{} is listed on {} out of {} checked blacklists hetrix'.format(str_name, result_dict['blacklisted_count'], result_dict['blacklist_check_credits_left'])
             return(result)      
     except:
         return("Script check not work")
