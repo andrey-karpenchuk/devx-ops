@@ -17,7 +17,7 @@ def get_abuse(host):
     if data['query_status'] == 'no_results':
         result = 'In urlhouse this {} was not found'.format(host)
     else:
-        result = '{} found in {} blacklists URLhouse!!!'.format(host, data['url_count'])
+        result = '{} found in {} blacklists URLhouse!'.format(host, data['url_count'])
     print(result)
     return(result)
 
