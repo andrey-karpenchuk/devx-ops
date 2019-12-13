@@ -1,0 +1,34 @@
+#!groovy
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent { 
+        label 'master'
+        }
+    triggers{pollSCM('* * * * *')}
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("Clone repository ") {
+            steps {
+                sh 'rm -rf ./devx-ops'
+                sh 'git clone https://github.com/akarpenchuk-ops/devx-ops.git'
+            }
+        }
+
+        stage("check hetrixtools") {
+            steps {
+            withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
+                sh 'python3 ./devx-ops/check_hetrixtools.py $TOKEN ukr.net'
+            }
+            }
+        }
+        stage("check url_abuse.py") {
+            steps {
+                sh 'python3 ./devx-ops/check_url_abuse.py ukr.net'
+            }
+        }
+    }
+}
