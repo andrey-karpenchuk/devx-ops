@@ -10,13 +10,6 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
-    stages {
-        stage("Clone repository ") {
-            steps {
-                sh 'rm -rf ./devx-ops'
-                sh 'git clone https://github.com/akarpenchuk-ops/devx-ops.git'
-            }
-        }
 
         stage("check hetrixtools") {
             steps {
