@@ -25,4 +25,3 @@ if __name__ == '__main__':
     list_arg = sys.argv[1:]
     for host in list_arg:
         get_abuse(host)
-        prnit('Rabotaet')
