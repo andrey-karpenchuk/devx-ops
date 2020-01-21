@@ -3,7 +3,7 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     agent { 
-        label 'all'
+        label 'ubuntu'
     }
     parameters {
         string(name: 'HETRIX', defaultValue: 'ukr.net', description: 'API_hetrix')
@@ -19,21 +19,21 @@ pipeline {
     stages {
         stage("Install requirements") {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                pip3 install -r requirements.txt
             }
         }
 
         stage("check hetrixtools") {
             steps {
             withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-                sh "python3 check_hetrixtools.py $TOKEN ukr.net"
+                python3 check_hetrixtools.py $TOKEN ukr.net
                 }
             }
         }
 
         stage("check url_abuse.py") {
             steps {
-                sh "python3 check_url_abuse.py ukr.net"
+                python3 check_url_abuse.py ukr.net
             }
         }
     }
