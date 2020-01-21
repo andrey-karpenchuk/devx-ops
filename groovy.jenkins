@@ -15,10 +15,9 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Clone repository ") {
+        stage("Install requirements") {
             steps {
                 sh 'pip3 install -r requirements.txt'
-                sh 'pip3 install -r ./devx-ops/requirements.txt'
             }
         }
 
