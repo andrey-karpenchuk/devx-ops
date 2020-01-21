@@ -10,13 +10,15 @@ pipeline {
         string(name: 'ABUSE', defaultValue: 'ukr.net', description: 'url_abuse')
     }
 
+    git{'https://github.com/akarpenchuk-ops/devx-ops.git'}
     triggers{pollSCM('* * * * *')}
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
 
-    stages {
+    node('ubuntu') {
         stage("Install requirements") {
             steps {
                 pip3 install -r requirements.txt
