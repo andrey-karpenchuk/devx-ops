@@ -2,10 +2,9 @@
 properties([disableConcurrentBuilds()])
 
 pipeline {
-    #agent { 
-    #    label 'master'
-    #    }
-    agent any
+    agent { 
+        label 'master'
+    }
     parameters {
         text(name: 'API_HETRIX', defaultValue: 'ukr.net', description: 'API_hetrix')
         text(name: 'URL_ABUSE', defaultValue: 'ukr.net', description: 'url_abuse')
