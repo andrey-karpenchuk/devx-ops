@@ -25,14 +25,13 @@ pipeline {
         stage("check hetrixtools") {
             steps {
             withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-                #sh "python3 check_hetrixtools.py $TOKEN ukr.net"
+                sh "python3 check_hetrixtools.py $TOKEN ukr.net"
                 echo "${params.HETRIX}""
                 }
             }
         }
         stage("check url_abuse.py") {
             steps {
-                #sh "python3 check_url_abuse.py ${params.ABUSE}"
                 sh "python3 check_url_abuse.py ukr.net"
             }
         }
