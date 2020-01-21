@@ -5,12 +5,7 @@ pipeline {
     agent { 
         label 'ubuntu'
     }
-    parameters {
-        string(name: 'HETRIX', defaultValue: 'ukr.net', description: 'API_hetrix')
-        string(name: 'ABUSE', defaultValue: 'ukr.net', description: 'url_abuse')
-    }
 
-    git{'https://github.com/akarpenchuk-ops/devx-ops.git'}
     triggers{pollSCM('* * * * *')}
 
     options {
@@ -18,24 +13,24 @@ pipeline {
         timestamps()
     }
 
-    node('ubuntu') {
+    stages {
         stage("Install requirements") {
             steps {
-                pip3 install -r requirements.txt
+                sh 'pip3 install -r requirements.txt'
             }
         }
 
         stage("check hetrixtools") {
             steps {
             withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-                python3 check_hetrixtools.py $TOKEN ukr.net
+                sh 'python3 check_hetrixtools.py $TOKEN ukr.net'
                 }
             }
         }
 
         stage("check url_abuse.py") {
             steps {
-                python3 check_url_abuse.py ukr.net
+                sh 'python3 check_url_abuse.py ukr.net'
             }
         }
     }
