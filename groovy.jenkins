@@ -6,8 +6,8 @@ pipeline {
         label 'master'
         }
     parameters {
-        string(name: 'API_HETRIX', defaultValue: 'ukr.net', description: 'API_hetrix')
-        string(name: 'URL_ABUSE', defaultValue: 'ukr.net', description: 'url_abuse')
+        text(name: 'API_HETRIX', defaultValue: 'ukr.net', description: 'API_hetrix')
+        text(name: 'URL_ABUSE', defaultValue: 'ukr.net', description: 'url_abuse')
     }
     triggers{pollSCM('* * * * *')}
     options {
