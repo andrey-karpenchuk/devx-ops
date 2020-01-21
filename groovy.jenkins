@@ -6,8 +6,8 @@ pipeline {
         label 'master'
     }
     parameters {
-        text(name: 'API_HETRIX', defaultValue: 'ukr.net', description: 'API_hetrix')
-        text(name: 'URL_ABUSE', defaultValue: 'ukr.net', description: 'url_abuse')
+        string(name: 'HETRIX', defaultValue: 'ukr.net', description: 'API_hetrix')
+        string(name: 'ABUSE', defaultValue: 'ukr.net', description: 'url_abuse')
     }
     triggers{pollSCM('* * * * *')}
     options {
@@ -25,13 +25,13 @@ pipeline {
             steps {
             withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
                 sh 'python3 check_hetrixtools.py $TOKEN ukr.net'
-                sh 'echo ${params.API_HETRIX}'
+                sh 'echo ${params.HETRIX}'
                 }
             }
         }
         stage("check url_abuse.py") {
             steps {
-                sh 'python3 check_url_abuse.py ${params.URL_ABUSE}'
+                sh 'python3 check_url_abuse.py ${params.ABUSE}'
             }
         }
     }
