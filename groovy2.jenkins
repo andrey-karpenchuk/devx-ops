@@ -17,9 +17,11 @@ pipeline {
         stage("Install requirements") {
             steps {
                 node('linux') {
+                    sh 'pwd'
                     sh 'pip3 install -r requirements.txt' 
                 }
                 node('windows') {
+                    powershell 'pwd'
                     powershell 'pip3 install -r requirements.txt' 
                 }
             }
