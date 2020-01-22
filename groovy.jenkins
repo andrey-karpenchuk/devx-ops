@@ -3,7 +3,7 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     agent { 
-        label 'windows'
+        label 'linux'
     }
 
     triggers{pollSCM('* * * * *')}
@@ -16,6 +16,7 @@ pipeline {
     stages {
         stage("Install requirements") {
             steps {
+
                 sh 'pip3 install -r requirements.txt'
             }
         }
