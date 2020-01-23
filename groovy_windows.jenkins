@@ -1,0 +1,37 @@
+#!groovy
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent { 
+        label 'windows'
+    }
+
+    triggers{pollSCM('* * * * *')}
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+
+    stages {
+        stage("Install requirements") {
+            steps {
+                powershell 'pip3 install -r requirements.txt'
+            }
+        }
+
+        stage("check hetrixtools") {
+            steps {
+            withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
+                powershell 'python3 check_hetrixtools.py $TOKEN google.com'
+                }
+            }
+        }
+
+        stage("check url_abuse.py") {
+            steps {
+                powershell 'python3 check_url_abuse.py google.com'
+            }
+        }
+    }
+}
