@@ -23,7 +23,7 @@ pipeline {
         stage("check hetrixtools") {
             steps {
             withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-                bat 'python3 check_hetrixtools.py $TOKEN google.com'
+                bat 'python3 check_hetrixtools.py $Env:TOKEN google.com'
                 }
             }
         }
