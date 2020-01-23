@@ -3,7 +3,7 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     agent { 
-        label 'all'
+        label 'windows'
     }
 
     triggers{pollSCM('* * * * *')}
@@ -12,14 +12,20 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
+    parameters {
+        string(name: 'HETRIX', defaultValue: 'ukr.net', description: 'Check IP or URLs on Hetrix')
+        string(name: 'URLABUSE', defaultValue: 'ukr.net', description: 'Check URLs on Urlabuse')
+    }
 
     stages {
         stage("Install requirements") {
             steps {
                 node('linux') {
+                    sh 'pwd'
                     sh 'pip3 install -r requirements.txt' 
                 }
                 node('windows') {
+                    powershell 'pwd'
                     powershell 'pip3 install -r requirements.txt' 
                 }
             }
@@ -29,10 +35,10 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
                     node('linux'){
-                        echo 'python3 check_hetrixtools.py $TOKEN google.com}'
+                        echo 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}'
                     }
                     node('windows') {
-                        powershell 'python3 check_hetrixtools.py $Env:TOKEN google.com' 
+                        powershell 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}' 
                     }
                 }
             }
@@ -41,10 +47,10 @@ pipeline {
         stage("check url_abuse.py") {
             steps {
                 node('linux'){
-                    echo 'python3 url_abuse.py ukr.net'
+                    echo 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}'
                 }
                 node('windows') {
-                    powershell 'python3 url_abuse.py ukr.net' 
+                    powershell 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}' 
                 }
             }
         }
