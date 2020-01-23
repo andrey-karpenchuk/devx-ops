@@ -38,7 +38,7 @@ pipeline {
                         echo 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}'
                     }
                     node('windows') {
-                        powershell 'python3 check_hetrixtools.py $TOKEN google.com' 
+                        powershell 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}' 
                     }
                 }
             }
@@ -50,7 +50,7 @@ pipeline {
                     echo 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}'
                 }
                 node('windows') {
-                    powershell 'python3 check_hetrixtools.py $TOKEN google.com' 
+                    powershell 'python3 check_hetrixtools.py $TOKEN ${params.BIOGRAPHY}' 
                 }
             }
         }
