@@ -23,7 +23,7 @@ pipeline {
         stage("check hetrixtools") {
             steps {
             withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-                powershell 'python3 check_hetrixtools.py $TOKEN google.com'
+                powershell 'python3 check_hetrixtools.py %TOKEN% google.com'
                 }
             }
         }
