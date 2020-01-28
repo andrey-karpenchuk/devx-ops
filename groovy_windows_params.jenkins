@@ -27,14 +27,14 @@ pipeline {
         stage("check hetrixtools") {
             steps {
             withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-                powershell "python3 check_hetrixtools.py $Env:TOKEN $Env:params.HETRIX"
+                powershell "python3 check_hetrixtools.py $Env:TOKEN %{params.HETRIX}%"
                 }
             }
         }
 
         stage("check url_abuse.py") {
             steps {
-                powershell "python3 check_url_abuse.py $Env:params.URLABUSE"
+                powershell "python3 check_url_abuse.py ukr.net"
             }
         }
     }
