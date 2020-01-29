@@ -22,6 +22,7 @@ def get_abuse(host):
     return(result)
 
 if __name__ == '__main__':
+    print('olololo')
     list_arg = sys.argv[1:]
     for host in list_arg:
         get_abuse(host)
