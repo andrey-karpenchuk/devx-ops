@@ -45,3 +45,5 @@ if __name__ == '__main__':
     list_arg = sys.argv[2:]
     for host in list_arg:
         print(check_ip_or_dns(host))
+
+#test
