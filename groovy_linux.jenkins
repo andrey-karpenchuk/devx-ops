@@ -1,9 +1,8 @@
 #!groovy
-properties([disableConcurrentBuilds()])
 
 pipeline {
     agent { 
-        label 'linux'
+        label 'master'
     }
 
     triggers{pollSCM('* * * * *')}
@@ -14,23 +13,40 @@ pipeline {
     }
 
     stages {
-        stage("Install requirements") {
+        stage("env") {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                sh "env"
+            }
+        }
+        stage("clear") {
+            steps {
+                sh "rm -rf ./*"
             }
         }
 
-        stage("check hetrixtools") {
+        stage("Clone") {
             steps {
-            withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-                sh 'python3 check_hetrixtools.py $TOKEN google.com'
-                }
+                sh "git clone https://github.com/andrey-karpenchuk/devx-ops.git"
+                sh "ls -la"
             }
         }
+        stage("Install requirements") {
+            steps {
+                sh 'pip3 install -r ./devx-ops/requirements.txt'
+            }
+        }
+
+//        stage("check hetrixtools") {
+//            steps {
+//            withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
+//                sh 'python3 ./devx-ops/check_hetrixtools.py $TOKEN google.com'
+//                }
+//            }
+//        }
 
         stage("check url_abuse.py") {
             steps {
-                sh 'python3 check_url_abuse.py google.com'
+                sh 'python3 ./devx-ops/check_url_abuse.py --first=ukr.net --second=80.11.158.65 --tree=carlosmartins.ca'
             }
         }
     }
