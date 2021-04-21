@@ -1,15 +1,26 @@
 #!groovy
 
 pipeline {
-    agent { 
+    agent {
         label 'master'
     }
 
-    triggers{pollSCM('* * * * *')}
+//    triggers{pollSCM('* * * * *')}
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
+    }
+
+    parameters {
+		string name: 'PARAM_SECOND',  defaultValue: '80.11.158.65', description: 'second'
+		string name: 'PARAM_TREE',  defaultValue: 'carlosmartins.ca', description: 'tree'
+	}
+
+    environment {
+        FIRST = credentials('first')
+        SECOND = "${params.PARAM_SECOND}"
+        TREE = "${params.PARAM_TREE}"
     }
 
     stages {
@@ -20,7 +31,7 @@ pipeline {
         }
         stage("clear") {
             steps {
-                sh "rm -rf ./*"
+                sh "rm -rf ./devx-ops"
             }
         }
 
@@ -36,17 +47,9 @@ pipeline {
             }
         }
 
-//        stage("check hetrixtools") {
-//            steps {
-//            withCredentials([string(credentialsId: 'API_hetrix', variable: 'TOKEN')]) {
-//                sh 'python3 ./devx-ops/check_hetrixtools.py $TOKEN google.com'
-//                }
-//            }
-//        }
-
         stage("check url_abuse.py") {
             steps {
-                sh 'python3 ./devx-ops/check_url_abuse.py --first=ukr.net --second=80.11.158.65 --tree=carlosmartins.ca'
+                sh "python3 ./devx-ops/check_url_abuse.py --first=${FIRST} --second=${SECOND} --tree=${TREE}"
             }
         }
     }

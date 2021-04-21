@@ -29,7 +29,7 @@ def get_abuse(host):
     response = requests.request("POST", URL_ABUSECH, data=data_json, timeout=15)
     response_json = response.json()
     data = response.json()
-    print(data)
+    # print(data)
     if data['query_status'] == 'no_results':
         result = 'In urlhouse this {} was not found'.format(host)
     else:
